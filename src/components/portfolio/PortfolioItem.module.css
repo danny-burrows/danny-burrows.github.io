@@ -1,0 +1,55 @@
+.item {
+    color: inherit;
+    text-decoration: none;
+
+    --op2: 0;
+    --img-url: linear-gradient(var(--background-color-light), var(--background-color));
+
+    position: relative;
+    text-align: center;
+    padding: 25px 10px;
+
+    border-radius: 10px;
+    /* background-color: var(--background-color-light); */
+    transition: all .3s;
+
+    opacity: var(--op2);    
+}
+.item::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: var(--img-url);
+    background-position: center;
+    background-size: cover;
+    
+    border-radius: 10px;
+    transition: all .5s;
+    opacity: 100;
+}
+
+.item:hover::before {
+    color: var(--accent-color);
+    filter: blur(3px);
+    opacity: 20%;
+}
+
+.item:active::before, .item:focus::before {
+    color: var(--accent-color);
+    border: 3px solid var(--background-color-light);
+    filter: blur(3px);
+    opacity: 20%;
+}
+
+.item:active, .item:focus {
+    color: var(--accent-color);
+    outline: 5px solid var(--background-color-light);
+    opacity: 120%;
+}
+
+.content {
+    font-size: 1.3ch;
+}

@@ -1,0 +1,22 @@
+<style>
+.banner {
+    text-align: center;
+    background: var(--background-vibe);
+    padding: 1em 1.5em;
+    padding-left: 0.75em;
+    border-radius: 4px;
+
+    line-height: 1.5;
+    width: 100%;
+    max-width: min(100%, 68ch);
+}
+.banner > p {
+    font-size: .96rem;
+}
+</style>
+
+<div class="banner">
+    <p>
+        <slot />
+    </p>
+</div>

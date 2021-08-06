@@ -1,0 +1,39 @@
+.blogContainer {
+    padding-top: 0;
+    line-height: 1.5;
+    max-width: min(100%, 68ch);
+    width: 100%;
+}
+
+.blogContainer > section {
+    margin-top: 2em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    max-width: 70ch;
+}
+
+.blogContainer a {
+    color: inherit;
+    font-weight: 800;
+    text-decoration: none;
+    background: 
+    linear-gradient(to right, var(--background-color), var(--background-color)),
+    linear-gradient(to right, var(--accent-color-2), var(--accent-color-2));
+    background-size: 100% 0.1em, 0 0.1em;
+    background-position: 100% 100%, 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 400ms;
+}
+.blogContainer a:hover,
+.blogContainer a:focus {
+    background-size: 0 0.1em, 100% 0.1em;
+}
+.blogContainer a:active {
+    color: #333;
+}
+
+.posts {
+    display: grid;
+    gap: 4ch;
+}

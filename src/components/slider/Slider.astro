@@ -1,0 +1,75 @@
+---
+import SliderObj from './SliderItem.astro'
+import AstroSliderObj from './AstroSliderItem.astro'
+---
+<style>
+/* Carosel */
+@keyframes scroll {
+  0% {
+    transform: translateX(100vw);
+ }
+  100% {
+    transform: translateX(calc((-160px * 23) + 100vw - min(100%, 68ch)));
+ }
+}
+.slider {
+  margin: 1.5rem 0 3rem 0;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 70px;
+}
+.slider::before, .slider::after {
+  content: "";
+  position: absolute;
+  height: 100%;
+  z-index: 2;
+
+  /* Some magic to make the elements fade in after the body margin */
+  background-image: linear-gradient(-90deg, #00000000, var(--background-color) 2rem);
+  width: max(5px, 50% - 34ch + 2rem);
+}
+.slider::after {
+  right: 0;
+  top: 0;
+  transform: rotateZ(180deg);
+}
+.slider::before {
+  left: 0;
+  top: 0;
+}
+.slider .slide-track {
+  animation: scroll 60s linear infinite;
+  display: flex;
+  position: absolute;
+  z-index: 1;
+  left: min(5px, -50% + 34ch);
+}
+</style>
+<div class="slider">
+    <div class="slide-track"> 
+        <AstroSliderObj />
+        <SliderObj icon="devicon-nextjs-original" />
+        <SliderObj icon="devicon-react-original" />
+        <SliderObj icon="devicon-javascript-plain" />
+        <SliderObj icon="devicon-typescript-plain" />
+        <SliderObj icon="devicon-mongodb-plain" />
+        <SliderObj icon="devicon-graphql-plain" />
+        <SliderObj icon="devicon-python-plain" />
+        <SliderObj icon="devicon-flask-original" />
+        <SliderObj icon="devicon-html5-plain" />
+        <SliderObj icon="devicon-css3-plain" />
+        <SliderObj icon="devicon-bootstrap-plain" />
+        <SliderObj icon="devicon-git-plain" />
+        <SliderObj icon="devicon-nodejs-plain" />
+        <SliderObj icon="devicon-c-plain" />
+        <SliderObj icon="devicon-rust-plain" />
+        <SliderObj icon="devicon-raspberrypi-line" />
+        <SliderObj icon="devicon-java-plain" />
+        <SliderObj icon="devicon-php-plain" />
+        <SliderObj icon="devicon-composer-line" />
+        <SliderObj icon="devicon-jupyter-plain" />
+        <SliderObj icon="devicon-figma-plain" />
+        <SliderObj icon="devicon-trello-plain" />
+    </div>
+</div>

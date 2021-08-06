@@ -1,0 +1,91 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+/* This is a weird fix that seems to stop unusual behaviour */
+astro-root, astro-fragment {
+  display: contents;
+}
+
+:root {
+  --text-color: #e4caa5;
+  --background-color: #252525;
+  --background-color-light: #303030;
+  --background-vibe: #37311f;
+
+  --accent-color: #ffc700;
+  --accent-color-2: #ff9900;
+  /* Old Light Mode Site 
+  --text-color: #3f3f3f;
+  --background-color: #c2c2c2;
+  --background-color-light: #cccccc;
+  --background-vibe: #d8d8d8;
+
+  --accent-color: #dd8500;
+  --accent-color-2: #d49100; 
+  */
+
+  font-family: 'Lexend', sans-serif;
+  font-size: 1rem;
+  --user-font-scale: 1rem - 16px;
+  font-size: clamp(0.875rem, 0.4626rem + 1.0309vw + var(--user-font-scale), 1.125rem);
+
+  --font-mono: Consolas, 'Andale Mono WT', 'Andale Mono', 'Lucida Console', 'Lucida Sans Typewriter', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Liberation Mono',
+    'Nimbus Mono L', Monaco, 'Courier New', Courier, monospace; 
+}
+
+body {
+  width: 100%;
+  min-width: 373px;
+
+  padding-top: 3rem;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+
+  background: var(--background-color);
+  color: var(--text-color);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-color: #e4caa5;
+    --background-color: #252525;
+    --background-color-light: #303030;
+    --background-vibe: #37311f;
+
+    --accent-color: #ffc700;
+    --accent-color-2: #ff9900;
+  }
+}
+
+@media (max-width: 650px) {
+  body {
+    padding-top: 2rem;
+    padding-right: 2rem;
+    padding-left: 2rem;
+  }
+}
+
+
+
+
+h2 {
+  font-weight: 500;
+  font-size: clamp(1.5rem, 1rem + 1.25vw, 2rem);
+}
+
+.counter {
+  display: grid;
+  grid-auto-flow: column;
+  gap: 1em;
+  font-size: 2rem;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.counter > pre {
+  text-align: center;
+  min-width: 3ch;
+}

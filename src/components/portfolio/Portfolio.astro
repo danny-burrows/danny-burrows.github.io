@@ -1,0 +1,56 @@
+---
+import PortfolioItem from './PortfolioItem.jsx'
+---
+
+<style>
+.container {
+    padding: 3rem 0;
+
+    width: min(100%, 68ch);
+
+    display: grid;
+    grid-gap: 16px;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+</style>
+
+<h2>Projects & Jobs</h2>
+<div class="container">
+
+    <PortfolioItem 
+        ids="thng-2" 
+        title="Class 7" 
+        content="Website & Full stack web application." 
+        link="https://class7.consulting" 
+        imgUrl="/assets/class7.png" 
+    client:load/>
+
+    <PortfolioItem 
+        ids="thng-1" 
+        title="CMDUI" 
+        content="A GUI Framework in CMD." 
+        link="https://github.com/danny-burrows/CMDUI" 
+        imgUrl="/assets/cmdui.png" 
+    client:load />
+
+    <PortfolioItem 
+        ids="thng-3" 
+        title="jorOnline" 
+        content="A chat app with a custom websocket server." 
+        link="https://github.com/danny-burrows/jorOnline"
+        imgUrl="/assets/joronline.png" 
+    client:load/>
+
+    <PortfolioItem 
+        ids="thng-4" 
+    client:load/>
+
+    <PortfolioItem 
+        ids="thng-5" 
+    client:load/>
+
+    <PortfolioItem 
+        ids="thng-6" 
+    client:load/>
+
+</div>

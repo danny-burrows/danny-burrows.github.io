@@ -1,0 +1,17 @@
+{
+  "name": "@example/starter",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "astro dev",
+    "build": "astro build"
+  },
+  "devDependencies": {
+    "@astrojs/renderer-react": "^0.2.0-next.0",
+    "astro": "^0.17.3"
+  },
+  "dependencies": {
+    "@formspree/react": "^2.2.3",
+    "react-google-recaptcha": "^2.1.0"
+  }
+}

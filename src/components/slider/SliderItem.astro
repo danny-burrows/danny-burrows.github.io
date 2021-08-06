@@ -1,0 +1,26 @@
+---
+const { icon = 'devicon-javascript-plain' } = Astro.props;
+---
+
+<style>
+i {
+  background: -webkit-linear-gradient(var(--accent-color-2), var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.slide {
+  display: flex;
+  justify-content: center;
+  width: 160px;
+}
+.slide > i {
+  color: var(--text-color);
+  font-size: 70px;
+  z-index: 100;
+}
+</style>
+
+<div class="slide">
+    <i class={icon}></i>
+</div>

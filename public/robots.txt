@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://danny-burrows.github.io/sitemap.xml

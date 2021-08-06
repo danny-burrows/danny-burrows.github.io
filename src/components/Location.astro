@@ -1,0 +1,57 @@
+<style>
+:root {
+    --test: var(--accent-color);
+}
+
+a {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    padding: 5px 10px 3px 10px;
+    
+    position: relative;
+    background-color: var(--background-color-light);
+    color: var(--accent-color);
+    border-bottom: transparent 2px;
+    border: solid 2px;
+    border-radius: 100px;
+
+    transition: filter ease-out .2s;
+}
+a:hover {
+    --test: var(--accent-color-2);
+}
+a:active {
+    filter: grayscale(100%) brightness(60%);
+}
+
+h5 {
+    margin-left: 5px;
+    font-size: .5ch;
+    line-height: 14px;
+
+    background: 
+        linear-gradient(to right, var(--background-color-light), var(--background-color-light)),
+        linear-gradient(to right, var(--accent-color), var(--accent-color));
+    background-size: 100% 0em, 0 0.1em;
+    background-position: 100% 100%, 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 400ms;
+}
+a:hover > h5, a:active > h5, a:focus > h5 {
+    background-size: 0 0.1em, 100% 0.1em;
+}
+
+i {
+    font-size: .6ch;
+    margin-top: -2px;
+    color: var(--test);
+    transition: color ease .3s;
+}
+</style>
+
+<a href="https://york.ac.uk">
+    <i class="fas fa-map-marker-alt icon"></i>
+    <h5>University of York &bull; UK</h5>
+</a>

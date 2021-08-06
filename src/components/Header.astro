@@ -1,0 +1,48 @@
+---
+import Location from './Location.astro'
+import ProfileImg from './profile-img/ProfileImg.jsx'
+---
+
+<style>
+header {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    width: 100%;
+    max-width: min(100%, 68ch);
+    margin-bottom: 1em;
+}
+.top-banner {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: clamp(2rem, -0.4742rem + 6.1856vw, 2.75rem);
+}
+header h1 {
+    font-size: 1em;
+    font-weight: 500;
+}
+@media only screen and (max-width: 420px) {
+    header h1 {
+        font-size: .79em;
+        font-weight: 500;
+    }
+}
+code {
+    text-align: center;
+    font-size: min(20px, .5em);
+    margin:0;
+    margin-top:-20px;
+}
+</style>
+
+<header>
+    <div class="top-banner">
+        <ProfileImg client:load/>
+        <div>
+            <h1>Danny Burrows</h1>
+            <code>Software Architect</code>
+            <Location />
+        </div>
+    </div>
+</header>

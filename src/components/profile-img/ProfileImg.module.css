@@ -1,0 +1,21 @@
+.img {
+    --op: 0;
+    --w: 0;
+    --mr: 0;
+
+    max-height:9rem;
+    max-width:var(--w);
+    min-height:9rem;
+    min-width:var(--w);
+
+    width:auto;
+    height:auto;
+
+    margin-right:var(--mr);
+    border: 4px solid var(--accent-color);
+    border-radius: 100px;
+
+    opacity: var(--op);
+
+    transition: all ease-out .3s;
+}
