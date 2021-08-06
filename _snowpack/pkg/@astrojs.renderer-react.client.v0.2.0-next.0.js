@@ -1,0 +1,1 @@
+import{c as r}from"../../react.v17.0.2-7ce85ba9.js";import{h as a}from"../../react-dom.v17.0.2-55b477ea.js";const e=({value:a})=>a?r("astro-fragment",{suppressHydrationWarning:!0,dangerouslySetInnerHTML:{__html:a}}):null;e.shouldComponentUpdate=()=>!1;export default n=>(s,t,o)=>a(r(s,{...t,suppressHydrationWarning:!0},r(e,{value:o,suppressHydrationWarning:!0})),n);

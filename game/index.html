@@ -1,0 +1,72 @@
+<!DOCTYPE html><html lang="en"><head><link rel="stylesheet" href="/_astro/common-Z21xdcI.css" type="text/css"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Game • Danny Burrows</title><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""><link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100;400;500;600&amp;display=swap" rel="stylesheet"><style type="text/css">
+        main.astro-zm2REqRo {
+            display: flex;
+            align-items:center;
+            flex-direction: column;
+            width: 100%;     
+        }
+        .conte.astro-zm2REqRo {
+            margin-top: 2rem;
+            width: 100%;
+            max-width: min(100%, 68ch); 
+        }
+        canvas.astro-zm2REqRo {
+            width: 100%;
+            border:1px solid #555;
+            /* background-color: var(--background-color-light); */
+            background-image: url("https://www.class7.consulting/media/Class_7_Logo.svg");
+            background-size: 90%;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-radius: 10px;
+        }
+    </style></head><body><main class="astro-zm2REqRo"><header class="astro-zvkshqHn"><div class="top-banner astro-zvkshqHn"><astro-root uid="ZXV2rS"><img id="profile-img" class="_img_1258c_1" data-reactroot=""></astro-root>
+<script type="module">
+import setup from '/_astro_frontend/hydrate/load.js';
+setup("ZXV2rS", async () => {
+  
+  const [{ default: Component }, { default: hydrate }] = await Promise.all([import("/_astro/src/components/profile-img/ProfileImg.js"), import("/_snowpack/pkg/@astrojs.renderer-react.client.v0.2.0-next.0.js")]);
+  return (el, children) => hydrate(el)(Component, {
+  "client:load": true
+}, children);
+
+});
+</script><div class="astro-zvkshqHn"><h1 class="astro-zvkshqHn">Danny Burrows</h1><code class="astro-zvkshqHn">Software Architect</code><a href="https://york.ac.uk" class="astro-2l8seWfT"><i class="fas fa-map-marker-alt icon astro-2l8seWfT"></i><h5 class="astro-2l8seWfT">University of York • UK</h5></a></div></div></header><div class="banner astro-IvhAgdp6"><p class="astro-IvhAgdp6">🚧 This site is still under construction! :-) 🚧</p></div><div class="conte astro-zm2REqRo"><canvas id="canvas" class="astro-zm2REqRo"></canvas></div><footer class="astro-n31rkg6Y"><a href="https://github.com/danny-burrows" class="astro-n31rkg6Y"><i class="fab fa-github-square astro-n31rkg6Y"></i></a><a href="https://www.facebook.com/dan.burrows.56808" class="astro-n31rkg6Y"><i class="fab fa-facebook-square astro-n31rkg6Y"></i></a><a href="https://twitter.com/Dan76979127" class="astro-n31rkg6Y"><i class="fab fa-twitter-square astro-n31rkg6Y"></i></a></footer></main><script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    window.devicePixelRatio=2;      //Clear Text
+
+    const width = canvas.offsetWidth;
+    const height = canvas.offsetHeight;
+
+    // canvas.style.width = size;
+    // canvas.style.height = size;
+
+    const scale = window.devicePixelRatio; 
+        
+    canvas.width = Math.floor(width * scale);
+    canvas.height = Math.floor(height * scale);
+
+    //CSS pixels for coordinate systems
+    ctx.scale(scale, scale);
+    ctx.font = `${width / 8}px Arial`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    ctx.fillStyle = "red";
+    ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--accent-color');
+
+    const x = width / 2;
+    const y = height / 2;
+
+    setInterval(() => {
+        ctx.beginPath();
+        ctx.arc(Math.floor(Math.random() * 1000), Math.floor(Math.random() * 1000), Math.floor(Math.random() * 1000), 0, 2 * Math.PI);
+        
+        ctx.stroke();
+
+        const textString = "Test Page";
+        ctx.fillText(textString, x, y);
+        ctx.strokeText(textString, x, y);
+    }, 0)
+</script></body></html>
