@@ -18,7 +18,7 @@ export default function ContactForm() {
   }
   return (
     <>
-      <h2>Get in Contact</h2>
+      <h2>Contact Me</h2>
       <form className={styles.form} onSubmit={handleSubmit}>
       <label htmlFor="email">
         Email Address
