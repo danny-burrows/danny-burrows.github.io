@@ -2,10 +2,18 @@
     color: inherit;
     text-decoration: none;
 
+    /* These are explicitly specified to allow for transition */
+    height: 100%;
+    max-height: 100%;
+
     --op2: 0;
     --img-url: linear-gradient(var(--background-color-light), var(--background-color));
 
     position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     text-align: center;
     padding: 25px 10px;
 
@@ -27,7 +35,7 @@
     background-size: cover;
     
     border-radius: 10px;
-    transition: all .5s;
+    transition: opacity .5s;
     opacity: 100;
 }
 
@@ -52,4 +60,20 @@
 
 .content {
     font-size: 1.3ch;
+}
+
+@media screen and (max-width: 768px) {
+
+    .item {
+        height: 7ch;
+        max-height: 7ch;
+        /* padding: 3px 10px;   */
+    }
+    .item > h2 {
+        font-size: medium;
+    }
+    .item > p {
+        font-size: 1ch;
+    }
+
 }
