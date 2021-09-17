@@ -144,7 +144,6 @@ let title = 'Watch Together &bull; Danny Burrows';
         a:active {
             color: #333;
         }
-
     </style>
 </head>
 <body>
@@ -152,7 +151,6 @@ let title = 'Watch Together &bull; Danny Burrows';
             <Banner>⚠️ <strong>Very</strong> early build! If you have any issues please submit them to <a href="/#contact">this form.</a> ⚠️</Banner>
 
             <input id="search" type="text" onkeypress="getUrl(event)" placeholder="Youtube Video URL" class="mt-2 round-wide"/>
-            
 
             <div id="player" class="round-wide"></div>
             <div id="control-panel" class="round-wide">
@@ -286,7 +284,6 @@ function toggle_play() {
 var web_socket;
 window.onload = async () => {
     console.log("Window Loaded!");
-
 
     web_socket = new WebSocket("wss://danlab.co.uk/server");
 
