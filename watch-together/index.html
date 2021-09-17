@@ -100,7 +100,34 @@
             outline: #ffc70033 solid 5px;
         }
 
-    </style></head><body><main class="astro-JxDqA1Cm"><input id="search" type="text" onkeypress="getUrl(event)" placeholder="Youtube Video URL" class="round-wide astro-JxDqA1Cm"><div id="player" class="round-wide astro-JxDqA1Cm"></div><div id="control-panel" class="round-wide astro-JxDqA1Cm"><div id="cont" class="astro-JxDqA1Cm"><button id="play-btn" onclick="toggle_play()" class="astro-JxDqA1Cm"><i class="fas fa-play astro-JxDqA1Cm"></i></button></div><div id="myProgress" class="astro-JxDqA1Cm"><div id="myBar" class="astro-JxDqA1Cm"></div><div id="myBar2" class="astro-JxDqA1Cm"></div></div></div></main><script src="https://www.youtube.com/iframe_api"></script><script>
+        .mt-2.astro-JxDqA1Cm {
+            margin-top: 2rem;
+        }
+
+        a.astro-JxDqA1Cm {
+            color: inherit;
+            font-weight: 800;
+            text-decoration: none;
+            background: 
+            linear-gradient(to right, var(--background-color), var(--background-color)),
+            linear-gradient(to right, var(--accent-color-2), var(--accent-color-2));
+            background-size: 100% 0.15em, 0 0.15em;
+            background-position: 100% 100%, 0 100%;
+            background-repeat: no-repeat;
+            transition: background-size 400ms;
+        }
+        a.astro-JxDqA1Cm:hover,
+.astro-JxDqA1Cm        a.astro-JxDqA1Cm:focus {
+            background-size: 0 0.15em, 100% 0.15em;
+        }
+        a.astro-JxDqA1Cm:active {
+            color: #333;
+        }
+    </style></head><body><main class="astro-JxDqA1Cm"><div class="banner astro-IvhAgdp6"><p class="astro-IvhAgdp6">⚠️ 
+<strong class="astro-JxDqA1Cm">Very</strong>
+ early build! If you have any issues please submit them to 
+<a href="/#contact" class="astro-JxDqA1Cm">this form.</a>
+ ⚠️</p></div><input id="search" type="text" onkeypress="getUrl(event)" placeholder="Youtube Video URL" class="mt-2 round-wide astro-JxDqA1Cm"><div id="player" class="round-wide astro-JxDqA1Cm"></div><div id="control-panel" class="round-wide astro-JxDqA1Cm"><div id="cont" class="astro-JxDqA1Cm"><button id="play-btn" onclick="toggle_play()" class="astro-JxDqA1Cm"><i class="fas fa-play astro-JxDqA1Cm"></i></button></div><div id="myProgress" class="astro-JxDqA1Cm"><div id="myBar" class="astro-JxDqA1Cm"></div><div id="myBar2" class="astro-JxDqA1Cm"></div></div></div></main><script src="https://www.youtube.com/iframe_api"></script><script>
 
 
 // Seeker code
@@ -215,8 +242,7 @@ var web_socket;
 window.onload = async () => {
     console.log("Window Loaded!");
 
-
-    web_socket = new WebSocket("ws://178.62.108.174/server");
+    web_socket = new WebSocket("wss://danlab.co.uk/server");
 
     web_socket.onopen = function (event) {
         
