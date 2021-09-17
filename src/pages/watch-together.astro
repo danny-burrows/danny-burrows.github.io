@@ -1,0 +1,456 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Banner from '../components/Banner.astro';
+
+let title = 'Watch Together &bull; Danny Burrows';
+---
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{title}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="stylesheet" href="/style/global.css">
+
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100;400;500;600&display=swap" rel="stylesheet"> 
+
+    <style>
+        main {
+            display: flex;
+            align-items:center;
+            flex-direction: column;
+            width: 80%;
+        }
+        .conte {
+            margin-top: 2rem;
+            width: 100%;
+            max-width: min(100%, 68ch); 
+        }
+        canvas {
+            width: 100%;
+            border:1px solid #555;
+            /* background-color: var(--background-color-light); */
+            background-image: url("https://www.class7.consulting/media/Class_7_Logo.svg");
+            background-size: 90%;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-radius: 10px;
+        }
+
+        .round-wide {
+            border-radius: 10px;
+            width: 100%;
+        }
+
+        #player {
+            margin: 25px;
+            border-radius: 10px;
+            border: 5px solid gold;
+            transition: border .25s;
+            width: 100%;
+            height: auto;
+            max-height: 80vh; 
+            aspect-ratio: 16/9;
+        }
+
+        #control-panel {
+            width: 100%;
+            height: 45px;
+            background-color: #333;
+
+            display: flex;
+        }
+
+
+        #myProgress {
+            width: 90%;
+            display: flex;
+            align-items: center;
+        }
+
+        #myBar {
+            width: 1px;
+            height: 20%;
+            border-radius: 10px;
+            background-color: #ffc70099;
+        }
+
+        #myBar2 {
+            width: 1px;
+            height: 40px;
+            border-radius: 10px;
+            background-color: #ffc70033;
+        }
+
+        #cont {
+            display: grid;
+            width: 10%;
+        }
+
+        #cont > button {
+            font-size: x-large;
+            font-weight: 60;
+            color: #ffc700FF;
+            background-color: #00000000;
+            border: none;
+            transition: color .25s;
+        }
+
+        #cont > button:hover {
+            color: #ffc70099;
+        }
+
+        input {
+            padding: 3px 10px 3px 10px;
+            background-color: #333;
+            border: 2px solid #ffc70099;
+            font-size: large;
+            color: #ffffff;
+        }
+
+        input:hover {
+            background-color: #444;
+        }
+
+        input:focus {
+            outline: #ffc70033 solid 5px;
+        }
+
+    </style>
+</head>
+<body>
+    <main>
+            <input id="search" type="text" onkeypress="getUrl(event)" placeholder="Youtube Video URL" class="round-wide"/>
+            
+
+            <div id="player" class="round-wide"></div>
+            <div id="control-panel" class="round-wide">
+            
+                <div id="cont">
+                    <button id="play-btn" onclick="toggle_play()"><i class="fas fa-play"></i></button>
+                </div>
+
+                <div id="myProgress">
+                    <div id="myBar"></div>
+                    <div id="myBar2"></div>
+                </div>
+
+            </div>
+        
+    </main>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+
+<script>
+
+
+// Seeker code
+var prev_x = 0;
+var mouse_over_seek = false;
+function setTrackSeeker() {
+    const seeker = document.getElementById("myProgress");
+    
+    seeker.onmousemove = (event) => {
+        mouse_over_seek = true;
+        if (event.x == prev_x) return;
+        prev_x = event.x;
+        document.getElementById("myBar").style.width = `${event.x - event.target.getBoundingClientRect().left}px`;
+    }
+
+    seeker.onmouseover = (event) => {
+        mouse_over_seek = true;
+    }
+
+    seeker.onmouseout = (event) => {
+        mouse_over_seek = false;
+    }
+
+    seeker.onclick = (event) => {
+        const rect = document.getElementById("myProgress").getBoundingClientRect()
+        const mult = ((event.x - rect.left) / (rect.right - rect.left));
+
+        const new_time = mult * player.getDuration();
+
+        setServerState(player.getPlayerState(), new_time);
+        player.seekTo(new_time);
+    }
+
+}
+
+function updatePerc() {
+    if (mouse_over_seek) return;
+
+    perc = player.getCurrentTime() / player.getDuration() * 100;
+    document.getElementById("myBar").style.width = `${perc}%`
+}
+
+
+// Socket utils...
+function sendMessage(msg){
+    waitForSocketConnection(web_socket, function(){
+        web_socket.send(msg);
+    });
+}
+
+function waitForSocketConnection(socket, callback){
+    setTimeout(
+        function () {
+            if (socket.readyState === 1) {
+                console.log("Connection is made")
+                if (callback != null){
+                    callback();
+                }
+            } else {
+                console.log("wait for connection...")
+                waitForSocketConnection(socket, callback);
+            }
+
+        }, 50); // wait 50 milisecond for the connection...
+}
+
+
+
+const player_states = {
+    UNSTARTED: -1,
+    ENDED: 0,
+    PLAYING: 1,
+    PAUSED: 2,
+    BUFFERING: 3,
+    VIDEO_CUED: 5
+};
+
+
+function getUrl(e) {
+    var key = e.keyCode || e.which;
+    if (key != 13){
+        return;
+    }
+
+    let url = document.getElementById("search").value;
+
+    url = url.replace("watch?v=", "v/");
+    console.log(url);
+
+    player.loadVideoByUrl(url);
+    setServerState(player.getPlayerState());
+}
+
+
+
+
+
+function toggle_play() {
+    const playerState = player.getPlayerState();
+    if (playerState == player_states.PLAYING) {
+        player.pauseVideo();
+    } else {
+        player.playVideo();
+    }
+}
+
+
+
+
+
+var web_socket;
+window.onload = async () => {
+    console.log("Window Loaded!");
+
+
+    web_socket = new WebSocket("ws://178.62.108.174/server");
+
+    web_socket.onopen = function (event) {
+        
+        gagged = true;
+    };
+
+
+    web_socket.onmessage = function (event) {
+        gagged = false;
+
+        if (event.data == "get_time") {
+            sendMessage(JSON.stringify({
+                ask: "set_time",
+                payload: player.getCurrentTime()
+            }));
+        }
+
+        let data = JSON.parse(event.data);
+
+        console.log("From Server:", data);
+
+        web_socket.last_recv_state = data;
+        
+        if (data.video_id != player.getVideoData()['video_id']) {
+            player.loadVideoByUrl(`https://youtube.com/v/${data.video_id}`);
+            player.seekTo(data.playTime);
+        }
+
+
+        if (player.getCurrentTime() > data.playTime + 1 || player.getCurrentTime() < data.playTime - 1) {
+            player.seekTo(data.playTime);
+
+            // Pause if not set as playing!
+            // if (data.playState != player_states.PLAYING || data.playState != player_states.PAUSED) {
+            //     player.pauseVideo();
+            // }
+
+        }
+
+        setPlayerState(data.playState);
+    }
+
+};
+
+
+function setPlayerState(new_state) {
+    
+    const current_state = player.getPlayerState();
+    
+    switch (new_state) {
+
+        case player_states.UNSTARTED:
+            break;
+
+        case player_states.VIDEO_CUED: 
+            break;
+
+        case player_states.PLAYING:
+            if (current_state == player_states.PLAYING) return;
+            player.playVideo();
+
+        case player_states.PAUSED:
+            if (current_state == player_states.PAUSED) return;
+            player.pauseVideo();
+
+        case player_states.BUFFERING:
+            break;
+
+        case player_states.ENDED:
+            break;
+
+    }
+}
+
+
+
+function setPlayerColor(playerStatus) {
+    var color;
+    if (playerStatus == player_states.UNSTARTED) {
+        color = "#37474F"; // unstarted = gray
+        document.getElementById('play-btn').innerHTML = "<i class=\"fas fa-play\"></i>";
+
+    } else if (playerStatus == player_states.ENDED) {
+        color = "#FFFF00"; // ended = yellow
+        document.getElementById('play-btn').innerHTML = "<i class=\"fas fa-play\"></i>";
+
+    } else if (playerStatus == player_states.PLAYING) {
+        color = "#33691E"; // playing = green
+        document.getElementById('play-btn').innerHTML = "<i class=\"fas fa-pause\"></i>";
+
+        player.playVideo();
+
+    } else if (playerStatus == player_states.PAUSED) {
+        color = "#DD2C00"; // paused = red
+        document.getElementById('play-btn').innerHTML = "<i class=\"fas fa-play\"></i>";
+
+        player.pauseVideo();
+
+    } else if (playerStatus == player_states.BUFFERING) {
+        color = "#AA00FF"; // buffering = purple
+
+    } else if (playerStatus == player_states.VIDEO_CUED) {
+        color = "#FF6DOO"; // video cued = orange
+        document.getElementById('play-btn').innerHTML = "<i class=\"fas fa-play\"></i>";
+
+    }
+    if (color) {
+        document.getElementById('player').style.borderColor = color;
+    }
+}
+
+
+// Player Stuff
+var player;
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+        height: '390',
+        width: '640',
+        videoId: 'SOMTJRIOcm4',
+        playerVars: {
+        'playsinline': 1,
+        'controls': 0
+        },
+        events: {
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange
+        }
+    });
+}
+
+function onPlayerReady(event) {
+    console.log("Player Ready!");
+    document.getElementById('player').style.borderColor = '#FF6D00';
+
+    setInterval(updatePerc, 100);
+    setTrackSeeker();
+}
+
+
+function onPlayerStateChange(event) {
+    const new_state = event.data;
+    setPlayerColor(event.data);
+
+    if (new_state == player_states.PLAYING || new_state == player_states.PAUSED) {
+        console.log("Sending Playing State!");
+        setServerState(event.data);
+    }
+
+}
+
+
+
+// WEB STUFF
+
+var gagged = true;
+
+function getServerState() {
+    sendMessage(JSON.stringify({
+        ask: "get_state"
+    }));
+}
+
+function setServerState(new_state, new_time) {
+
+    new_time = new_time ? new_time: player.getCurrentTime();
+
+    const send_state = {
+        playState: new_state,
+        video_id: player.getVideoData()['video_id'],
+        playTime: new_time
+    };
+
+    if (gagged) return;
+    if (send_state == web_socket.last_recv_state) return;
+
+    console.log(`Update Server:`, send_state);
+
+    sendMessage(JSON.stringify({
+        ask: "set_state",
+        payload: send_state
+    }));
+
+}
+
+</script>
+
+</body>
+</html>
+
+
+
