@@ -1,0 +1,73 @@
+:root {
+    --loading-opacity: 100%;
+    --loading-text-content: "Loading Chat...";
+    --loading-background-content: "";
+}
+
+.chat {
+    position: relative;
+    background-color: var(--background-color-light);
+    border-radius: 7px;
+    padding: 10px;
+    min-width: 300px;   
+}
+
+.chat::before {
+    position: absolute;
+    content: var(--loading-background-content);
+    background-color: #2c2c2cdd;
+    border-radius: 7px;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+
+    outline: 0px solid #303030ff;
+    animation: test 1s ease-out infinite;
+    opacity: var(--loading-opacity);
+    transition: opacity .3s ease-out;
+}
+
+.chat::after {
+    content: var(--loading-text-content);
+    position: absolute;
+    white-space: pre;
+    display: inline;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: var(--loading-opacity);
+    transition: opacity .3s ease-out;
+}
+
+@keyframes test {
+    0% {
+        outline-width: 0px;
+    }
+    100% {
+        outline-width: 40px;
+        outline-color: #30303000;
+    }
+}
+
+.chatInput {
+    font-size: medium;
+    width: 100%;
+    background-color: var(--background-color);
+    padding: 7px;
+    border: none;
+    border-radius: 7px;
+    color: var(--text-color);
+}
+
+.chatLog {
+    font-size: medium;
+    min-height: 100px;
+    width: 100%;
+    margin-bottom: 10px;
+    background-color: var(--background-color);
+    padding: 7px;
+    border: none;
+    border-radius: 7px;
+    color: var(--text-color);
+}
