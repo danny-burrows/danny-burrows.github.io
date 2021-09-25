@@ -2,6 +2,7 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Banner from '../components/Banner.astro';
+import Chat from '../components/chat/Chat.jsx';
 
 let title = 'Watch Together &bull; Danny Burrows';
 ---
@@ -165,6 +166,10 @@ let title = 'Watch Together &bull; Danny Burrows';
                 </div>
 
             </div>
+
+            <div class="mt-2">
+                <Chat client:load/>
+            </div>
         
     </main>
 
@@ -238,7 +243,6 @@ function waitForSocketConnection(socket, callback){
 }
 
 
-
 const player_states = {
     UNSTARTED: -1,
     ENDED: 0,
@@ -265,9 +269,6 @@ function getUrl(e) {
 }
 
 
-
-
-
 function toggle_play() {
     const playerState = player.getPlayerState();
     if (playerState == player_states.PLAYING) {
@@ -278,63 +279,72 @@ function toggle_play() {
 }
 
 
+var player;
+
+const web_socket = new WebSocket("wss://danlab.co.uk/server");
+
+web_socket.onopen = event => {
+    gagged = true;
+
+    waitForYoutubeApi(() => {
+        player = new YT.Player('player', {
+            height: '390',
+            width: '640',
+            videoId: 'SOMTJRIOcm4',
+            playerVars: {
+                'playsinline': 1,
+                'controls': 0
+                },
+                events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+                }
+        });
+    });
+};
 
 
-
-var web_socket;
-window.onload = async () => {
-    console.log("Window Loaded!");
-
-    web_socket = new WebSocket("wss://danlab.co.uk/server");
-
-    web_socket.onopen = function (event) {
-        
-        gagged = true;
-    };
-
-
-    web_socket.onmessage = function (event) {
+web_socket.onmessage = event => {
+    
+    waitForPlayer(() => {
+    
         gagged = false;
-
+    
         if (event.data == "get_time") {
             sendMessage(JSON.stringify({
                 ask: "set_time",
                 payload: player.getCurrentTime()
             }));
         }
-
+    
         let data = JSON.parse(event.data);
-
+    
         console.log("From Server:", data);
-
+    
         web_socket.last_recv_state = data;
         
         if (data.video_id != player.getVideoData()['video_id']) {
             player.loadVideoByUrl(`https://youtube.com/v/${data.video_id}`);
             player.seekTo(data.playTime);
         }
-
-
+    
+    
         if (player.getCurrentTime() > data.playTime + 1 || player.getCurrentTime() < data.playTime - 1) {
             player.seekTo(data.playTime);
-
-            // Pause if not set as playing!
-            // if (data.playState != player_states.PLAYING || data.playState != player_states.PAUSED) {
-            //     player.pauseVideo();
-            // }
-
         }
-
+    
         setPlayerState(data.playState);
-    }
 
-};
+    });
+}
 
 
 function setPlayerState(new_state) {
     
     const current_state = player.getPlayerState();
     
+    if (current_state == new_state) return;
+
     switch (new_state) {
 
         case player_states.UNSTARTED:
@@ -344,11 +354,9 @@ function setPlayerState(new_state) {
             break;
 
         case player_states.PLAYING:
-            if (current_state == player_states.PLAYING) return;
             player.playVideo();
 
         case player_states.PAUSED:
-            if (current_state == player_states.PAUSED) return;
             player.pauseVideo();
 
         case player_states.BUFFERING:
@@ -359,7 +367,6 @@ function setPlayerState(new_state) {
 
     }
 }
-
 
 
 function setPlayerColor(playerStatus) {
@@ -399,24 +406,33 @@ function setPlayerColor(playerStatus) {
 
 
 // Player Stuff
-var player;
+
+
+var api_ready = false;
+function waitForYoutubeApi(_callback){
+    if (api_ready == true) {
+        _callback();
+        return;
+    }
+    setTimeout(waitForYoutubeApi.bind(null, _callback), 250);
+}
+
 function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player', {
-        height: '390',
-        width: '640',
-        videoId: 'SOMTJRIOcm4',
-        playerVars: {
-        'playsinline': 1,
-        'controls': 0
-        },
-        events: {
-        'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange
-        }
-    });
+    api_ready = true;
+}
+
+var player_ready = false;
+function waitForPlayer(_callback){
+    if (player_ready == true) {
+        _callback();
+        return;
+    }
+    setTimeout(waitForPlayer.bind(null, _callback), 250);
 }
 
 function onPlayerReady(event) {
+    player_ready = true;
+
     console.log("Player Ready!");
     document.getElementById('player').style.borderColor = '#FF6D00';
 
