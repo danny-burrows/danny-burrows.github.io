@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><link rel="stylesheet" href="/_astro/common-Z21xdcI.css" type="text/css"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Watch Together • Danny Burrows</title><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""><link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100;400;500;600&amp;display=swap" rel="stylesheet"><style type="text/css">
+<!DOCTYPE html><html lang="en"><head><link rel="stylesheet" href="/_astro/common-Z21xdcI.css" type="text/css"><link rel="stylesheet" href="/_astro/watch-together/index-Z1mkeV1.css" type="text/css"><style type="text/css">astro-root, astro-fragment { display: contents; }</style><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Watch Together • Danny Burrows</title><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""><link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100;400;500;600&amp;display=swap" rel="stylesheet"><style type="text/css">
         main.astro-JxDqA1Cm {
             display: flex;
             align-items:center;
@@ -127,7 +127,18 @@
 <strong class="astro-JxDqA1Cm">Very</strong>
  early build! If you have any issues please submit them to 
 <a href="/#contact" class="astro-JxDqA1Cm">this form.</a>
- ⚠️</p></div><input id="search" type="text" onkeypress="getUrl(event)" placeholder="Youtube Video URL" class="mt-2 round-wide astro-JxDqA1Cm"><div id="player" class="round-wide astro-JxDqA1Cm"></div><div id="control-panel" class="round-wide astro-JxDqA1Cm"><div id="cont" class="astro-JxDqA1Cm"><button id="play-btn" onclick="toggle_play()" class="astro-JxDqA1Cm"><i class="fas fa-play astro-JxDqA1Cm"></i></button></div><div id="myProgress" class="astro-JxDqA1Cm"><div id="myBar" class="astro-JxDqA1Cm"></div><div id="myBar2" class="astro-JxDqA1Cm"></div></div></div></main><script src="https://www.youtube.com/iframe_api"></script><script>
+ ⚠️</p></div><input id="search" type="text" onkeypress="getUrl(event)" placeholder="Youtube Video URL" class="mt-2 round-wide astro-JxDqA1Cm"><div id="player" class="round-wide astro-JxDqA1Cm"></div><div id="control-panel" class="round-wide astro-JxDqA1Cm"><div id="cont" class="astro-JxDqA1Cm"><button id="play-btn" onclick="toggle_play()" class="astro-JxDqA1Cm"><i class="fas fa-play astro-JxDqA1Cm"></i></button></div><div id="myProgress" class="astro-JxDqA1Cm"><div id="myBar" class="astro-JxDqA1Cm"></div><div id="myBar2" class="astro-JxDqA1Cm"></div></div></div><div class="mt-2 astro-JxDqA1Cm"><astro-root uid="Z2eonwu"><div class="_chat_bbvom_7" data-reactroot=""><div id="chat-log" class="_chatLog_bbvom_63">Start of chat log.</div><input type="text" id="chat-input" class="_chatInput_bbvom_53" placeholder="Type a message and press enter."></div></astro-root>
+<script type="module">
+import setup from '/_astro_frontend/hydrate/load.js';
+setup("Z2eonwu", async () => {
+  
+  const [{ default: Component }, { default: hydrate }] = await Promise.all([import("/_astro/src/components/chat/Chat.js"), import("/_snowpack/pkg/@astrojs.renderer-react.client.v0.2.0-next.0.js")]);
+  return (el, children) => hydrate(el)(Component, {
+  "client:load": true
+}, children);
+
+});
+</script></div></main><script src="https://www.youtube.com/iframe_api"></script><script>
 
 
 // Seeker code
@@ -195,7 +206,6 @@ function waitForSocketConnection(socket, callback){
 }
 
 
-
 const player_states = {
     UNSTARTED: -1,
     ENDED: 0,
@@ -222,9 +232,6 @@ function getUrl(e) {
 }
 
 
-
-
-
 function toggle_play() {
     const playerState = player.getPlayerState();
     if (playerState == player_states.PLAYING) {
@@ -235,63 +242,72 @@ function toggle_play() {
 }
 
 
+var player;
+
+const web_socket = new WebSocket("wss://danlab.co.uk/server");
+
+web_socket.onopen = event => {
+    gagged = true;
+
+    waitForYoutubeApi(() => {
+        player = new YT.Player('player', {
+            height: '390',
+            width: '640',
+            videoId: 'SOMTJRIOcm4',
+            playerVars: {
+                'playsinline': 1,
+                'controls': 0
+                },
+                events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+                }
+        });
+    });
+};
 
 
-
-var web_socket;
-window.onload = async () => {
-    console.log("Window Loaded!");
-
-    web_socket = new WebSocket("wss://danlab.co.uk/server");
-
-    web_socket.onopen = function (event) {
-        
-        gagged = true;
-    };
-
-
-    web_socket.onmessage = function (event) {
+web_socket.onmessage = event => {
+    
+    waitForPlayer(() => {
+    
         gagged = false;
-
+    
         if (event.data == "get_time") {
             sendMessage(JSON.stringify({
                 ask: "set_time",
                 payload: player.getCurrentTime()
             }));
         }
-
+    
         let data = JSON.parse(event.data);
-
+    
         console.log("From Server:", data);
-
+    
         web_socket.last_recv_state = data;
         
         if (data.video_id != player.getVideoData()['video_id']) {
             player.loadVideoByUrl(`https://youtube.com/v/${data.video_id}`);
             player.seekTo(data.playTime);
         }
-
-
+    
+    
         if (player.getCurrentTime() > data.playTime + 1 || player.getCurrentTime() < data.playTime - 1) {
             player.seekTo(data.playTime);
-
-            // Pause if not set as playing!
-            // if (data.playState != player_states.PLAYING || data.playState != player_states.PAUSED) {
-            //     player.pauseVideo();
-            // }
-
         }
-
+    
         setPlayerState(data.playState);
-    }
 
-};
+    });
+}
 
 
 function setPlayerState(new_state) {
     
     const current_state = player.getPlayerState();
     
+    if (current_state == new_state) return;
+
     switch (new_state) {
 
         case player_states.UNSTARTED:
@@ -301,11 +317,9 @@ function setPlayerState(new_state) {
             break;
 
         case player_states.PLAYING:
-            if (current_state == player_states.PLAYING) return;
             player.playVideo();
 
         case player_states.PAUSED:
-            if (current_state == player_states.PAUSED) return;
             player.pauseVideo();
 
         case player_states.BUFFERING:
@@ -316,7 +330,6 @@ function setPlayerState(new_state) {
 
     }
 }
-
 
 
 function setPlayerColor(playerStatus) {
@@ -356,24 +369,33 @@ function setPlayerColor(playerStatus) {
 
 
 // Player Stuff
-var player;
+
+
+var api_ready = false;
+function waitForYoutubeApi(_callback){
+    if (api_ready == true) {
+        _callback();
+        return;
+    }
+    setTimeout(waitForYoutubeApi.bind(null, _callback), 250);
+}
+
 function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player', {
-        height: '390',
-        width: '640',
-        videoId: 'SOMTJRIOcm4',
-        playerVars: {
-        'playsinline': 1,
-        'controls': 0
-        },
-        events: {
-        'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange
-        }
-    });
+    api_ready = true;
+}
+
+var player_ready = false;
+function waitForPlayer(_callback){
+    if (player_ready == true) {
+        _callback();
+        return;
+    }
+    setTimeout(waitForPlayer.bind(null, _callback), 250);
 }
 
 function onPlayerReady(event) {
+    player_ready = true;
+
     console.log("Player Ready!");
     document.getElementById('player').style.borderColor = '#FF6D00';
 
