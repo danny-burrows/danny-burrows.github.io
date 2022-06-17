@@ -7,8 +7,6 @@ import AboutMe from '../components/AboutMe.astro'
 import Slider from '../components/slider/Slider.astro' 
 import Portfolio from '../components/portfolio/Portfolio.astro'
 
-import ContactForm from '../components/contact-form/ContactForm.jsx';
-
 let title = 'Danny Burrows &bull; Software Architect';
 ---
 <html lang="en">
@@ -47,8 +45,6 @@ let title = 'Danny Burrows &bull; Software Architect';
         <Slider />
         
         <Portfolio />
-
-        <ContactForm client:load/>
 
         <Footer />
     </main>
