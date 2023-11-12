@@ -9,6 +9,11 @@ const PortfolioItem = (props) =>  {
             portfolio_item_ref.current.style.setProperty('aspect-ratio', `9 / 5`);
         }
 
+        // TODO: Axe this.
+        if (props.title == "Loki") {
+            portfolio_item_ref.current.style.setProperty('outline', `solid #b0b0b0 2px`);
+        }
+
         if (props.imgUrl) {
             const tst = new Image();
 

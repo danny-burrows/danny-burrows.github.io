@@ -71,8 +71,8 @@
 @media screen and (max-width: 768px) {
 
     .item {
-        height: 7ch;
-        max-height: 7ch;
+        height: 10ch;
+        max-height: 10ch;
         padding: 2px 2px;  
     }
     .item > h2 {
@@ -82,4 +82,11 @@
         font-size: 1ch;
     }
 
+}
+
+@media screen and (max-width: 550px) {
+    .item {
+        height: 7ch;
+        max-height: 7ch;
+    }
 }

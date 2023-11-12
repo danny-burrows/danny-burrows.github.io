@@ -62,14 +62,10 @@ body {
 
 @media (max-width: 650px) {
   body {
-    padding-top: 2rem;
     padding-right: 2rem;
     padding-left: 2rem;
   }
 }
-
-
-
 
 h2 {
   font-weight: 500;
