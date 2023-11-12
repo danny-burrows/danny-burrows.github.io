@@ -1,27 +1,30 @@
 import React from 'react';
 import styles from './PortfolioItem.module.css'
 
-
 const PortfolioItem = (props) =>  {
+    const portfolio_item_ref = React.useRef(null);
     
     React.useEffect(() => {
-        const port_item = document.getElementById(props.ids);
+        if (props.title) {
+            portfolio_item_ref.current.style.setProperty('aspect-ratio', `9 / 5`);
+        }
+
         if (props.imgUrl) {
             const tst = new Image();
 
             tst.onload = () => {
-                port_item.style.setProperty('--img-url', `url("${props.imgUrl}")`);
-                port_item.style.setProperty('--op2', "100");
+                portfolio_item_ref.current.style.setProperty('--img-url', `url("${props.imgUrl}")`);
+                portfolio_item_ref.current.style.setProperty('--op2', "100");
             };
-            
+
             tst.src = props.imgUrl;
         } else {
-            port_item.style.setProperty('--op2', "100");
+            portfolio_item_ref.current.style.setProperty('--op2', "100");
         }
     }, []);
     
     return (
-        <a href={props.link} id={props.ids} className={styles.item}>
+        <a ref={portfolio_item_ref} href={props.link} className={styles.item}>
             <h2 className={styles.title}>{props.title}</h2>
             <p className={styles.content}>{props.content}</p>
         </a>
