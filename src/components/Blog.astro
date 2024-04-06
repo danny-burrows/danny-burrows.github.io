@@ -1,0 +1,68 @@
+<style>
+    a {
+        color: inherit;
+        font-weight: 800;
+        text-decoration: none;
+        background: 
+        linear-gradient(to right, var(--background-color), var(--background-color)),
+        linear-gradient(to right, var(--accent-color-2), var(--accent-color-2));
+        background-size: 100% 0.15em, 0 0.15em;
+        background-position: 100% 100%, 0 100%;
+        background-repeat: no-repeat;
+        transition: background-size 400ms;
+    }
+    a:hover,
+    a:focus {
+        background-size: 0 0.15em, 100% 0.15em;
+    }
+    a:active {
+        color: #333;
+    }
+    
+    article {
+        padding-top: 2em;
+        line-height: 1.5;
+        max-width: min(100%, 68ch);
+    }
+    section {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+    }
+    
+    pre,
+    code {
+        font-family: var(--font-mono);
+        background: var(--background-vibe);
+        border-radius: 4px;
+    }
+    
+    pre {
+        padding: 1em 1.5em;
+    }
+    
+    .tree {
+        line-height: 1.2;
+    }
+    
+    code:not(.tree) {
+        padding: 0.125em;
+        margin: 0 -0.125em;
+    }
+    </style>
+    
+    <article>
+        <section>
+            <h2>Hello, I'm Danny.</h2>
+            <p>
+                I'm studying Computer Science at the <a href="https://york.ac.uk">University of York</a> and I'm the Technical Director at <a href="https://class7.consulting">Class 7 Consulting</a>.
+            </p>
+            <p>
+                I also do freelance work, building full stack web applications, IT solutions and promotional websites for businesses. 
+                My clients include startups and established companies in industries such as finance, insurance and 
+                retail.
+            </p>
+            <h3>Technologies I'm experienced in...</h3> 
+        </section>
+    </article>
+    
