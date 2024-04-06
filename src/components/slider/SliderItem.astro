@@ -1,5 +1,5 @@
 ---
-const { icon = 'devicon-javascript-plain' } = Astro.props;
+const { icon = 'devicon-javascript-plain', text = '' } = Astro.props;
 ---
 
 <style>
@@ -13,6 +13,7 @@ i {
   display: flex;
   justify-content: center;
   width: 160px;
+  margin-right: 20px;
 }
 .slide > i {
   color: var(--text-color);
@@ -23,4 +24,5 @@ i {
 
 <div class="slide">
     <i class={icon}></i>
+    <span>{text}</span>
 </div>
