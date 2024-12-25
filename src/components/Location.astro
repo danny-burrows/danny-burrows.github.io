@@ -8,19 +8,21 @@ a {
     display: flex;
     align-items: center;
     width: fit-content;
-    padding: 5px 10px 3px 10px;
+    padding: 6px 10px 6px 10px;
     
     position: relative;
     background-color: var(--background-color-light);
     color: var(--accent-color);
     border-bottom: transparent 2px;
     border: solid 2px;
-    border-radius: 100px;
+    border-radius: 20px;
 
-    transition: filter ease-out .2s;
+    transition: filter ease-out .4s;
+    transition: border-radius ease .4s;
 }
 a:hover {
     --test: var(--accent-color-2);
+    border-radius: 10px;
 }
 a:active {
     filter: grayscale(100%) brightness(60%);
@@ -39,9 +41,6 @@ h5 {
     background-repeat: no-repeat;
     transition: background-size 400ms;
 }
-a:hover > h5, a:active > h5, a:focus > h5 {
-    background-size: 0 0.1em, 100% 0.1em;
-}
 
 i {
     font-size: .6ch;
@@ -51,7 +50,7 @@ i {
 }
 </style>
 
-<a href="https://york.ac.uk">
+<a href="https://altoslabs.com">
     <i class="fas fa-map-marker-alt icon"></i>
-    <h5>University of York &bull; UK</h5>
+    <h5>Altos Labs &bull; Cambridge UK</h5>
 </a>
