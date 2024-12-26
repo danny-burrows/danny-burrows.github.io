@@ -7,14 +7,15 @@ import AboutMe from '../components/AboutMe.astro'
 import Slider from '../components/slider/Slider.astro' 
 import Portfolio from '../components/portfolio/Portfolio.astro'
 
-let title = 'Danny Burrows • Software Engineer';
+const title = 'Danny Burrows • Software Engineer';
+const description = 'Hello, I'm Danny. I'm part of the HPC Engineering Team at Altos Labs and the Technical Director of Class 7 Consulting. I love writing efficient and robust software to solve complex and interesting problems. Get in touch if you need software expertise.';
 ---
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{title}</title>
-    <meta name="description" content="Hello, I'm Danny. I'm part of the HPC Engineering Team at Altos Labs and the Technical Director of Class 7 Consulting. I love writing efficient and robust software to solve complex and interesting problems. Get in touch if you need software expertise.">
+    <meta name="description" content={description}>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="stylesheet" href="/style/global.css">
 
@@ -24,6 +25,11 @@ let title = 'Danny Burrows • Software Engineer';
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100;400;500;600&display=swap" rel="stylesheet"> 
+
+    <meta property="og:title" content={title}>
+    <meta property="og:description" content={description}>
+    <meta property="og:image" content="https://dannyburrows.com/favicon.svg">
+    <meta property="og:url" content="https://dannyburrows.com">
 
     <style>
         main {
